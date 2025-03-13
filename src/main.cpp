@@ -14,7 +14,7 @@
 //
 
 
-char HOSTNAME[]="htester"; // we are HOSTNAME.local via mDNS
+char HOSTNAME[]="wtester"; // we are HOSTNAME.local via mDNS
 char ssid[]="TELUS0609";
 char password[]="t6z7gmkhd5";
 
@@ -105,126 +105,44 @@ const char *PinDescriptions[]={ // pin description/name followed by connector de
 //
 
 
+#define PIN_COUNT 32
 
 int KnownGood[]={
-  0,39,-1,-1,
-  1,34,-1,-1,
-  2,35,-1,-1,
-  3,32,-1,-1,
-  4,36,-1,-1,
-  5,37,-1,-1,
-  6,40,-1,-1,
-  7,48,59,-1,
-  8,52,63,-1,
-  9,-1,-1,-1,
-  10,47,-1,-1,
-  11,38,-1,-1,
-  12,33,-1,-1,
-  13,44,-1,-1,
-  14,-1,-1,-1,
-  15,50,57,-1,
-  16,54,61,-1,
-  17,51,-1,-1,
-  18,60,-1,-1,
-  19,55,-1,-1,
-  20,53,-1,-1,
-  21,-1,-1,-1,
-  22,-1,-1,-1,
-  23,-1,-1,-1,
-  24,58,-1,-1,
-  25,56,-1,-1,
-  26,-1,-1,-1,
-  27,-1,-1,-1,
-  28,-1,-1,-1,
-  29,-1,-1,-1,
-  30,-1,-1,-1,
-  31,-1,-1,-1,
-  32, 3,-1,-1,
-  33,12,-1,-1,
-  34, 1,-1,-1,
-  35, 2,-1,-1,
-  36, 4,-1,-1,
-  37, 5,-1,-1,
-  38,11,-1,-1,
-  39, 0,-1,-1,
-  40, 6,-1,-1,
-  41,-1,-1,-1,
-  42,-1,-1,-1,
-  43,-1,-1,-1,
-  44,13,-1,-1,
-  45,-1,-1,-1,
-  46,-1,-1,-1,
-  47,10,-1,-1,
-  48, 7,59,-1,
-  49,-1,-1,-1,
-  50,15,57,-1,
-  51,17,-1,-1,
-  52, 8,63,-1,
-  53,20,-1,-1,
-  54,16,61,-1,
-  55,19,-1,-1,
-  56,25,-1,-1,
-  57,15,50,-1,
-  58,24,-1,-1,
-  59, 7,48,-1,
-  60,18,-1,-1,
-  61,16,54,-1,
-  62,-1,-1,-1,
-  63, 8,52,-1
-};
+  0,-1,-1,-1,
+  1,-1,-1,-1,
+  2,31,-1,-1,
+  3,13,-1,-1,
+  4,12,-1,-1,
+  5,-1,-1,-1,
+  6,15,-1,-1,
+  7,11,-1,-1,
+   8,17,-1,-1,
+   9,-1,-1,-1,
+  10,20,-1,-1,
+  11,7,-1,-1,
+  12,4,-1,-1,
+  13,3,-1,-1,
+  14,21,-1,-1,
+  15,6,-1,-1,
+  16,28,-1,-1,
+  17, 8,-1,-1,
+  18,29,-1,-1,
+  19,30,-1,-1,
+  20,10,-1,-1,
+  21,14,-1,-1,
+  22,25,27,-1,
+  23,24,26,-1,
+  24,23,26,-1,
+  25,22,27,-1,
+  26,23,24,-1,
+  27,22,25,-1,
+  28,16,-1,-1,
+  29,18,-1,-1,
+  30,19,-1,-1,
+  31,2,-1,-1
+  };
+
 int TestResult[256];
-
-
-const char *FailNames[]={
-  "purple","pendant",
-  "red","clutch",
-  "yellow","",
-  "black","",
-  "orange","",
-  "blue","",
-  "error","overflow"
-};
-
-int FailList[]={
-
- 0, 1, 2, 3, 4, 5,11,12, // purple
-10,13,-1,-1,-1,-1,-1,-1, // red
- 8,16,18,-1,-1,-1,-1,-1, // yellow
- 7,15,24,25,-1,-1,-1,-1, // black
- 7,15,17,-1,-1,-1,-1,-1, // orange
- 8,16,19,20,-1,-1,-1,-1  // blue
-};
-
-int FailArray[6];
-
-
-int FailScan(){
-  for(int connector=0;connector<6;connector++)
-  {
-    FailArray[connector]=0;
-    for(int pin=0;pin<8;pin++) {
-      int xpin=FailList[connector*8+pin];
-      if(xpin>=0)
-      if(xpin<32)
-      if(TestResult[xpin*4+1]==-1) {
-       // Serial.printf("%s %s %d %d\r\n",FailNames[connector*2],FailNames[connector*2+1],connector,xpin);
-        FailArray[connector]++;
-      } 
-      //else if(TestResult[xpin*4+2]==-1) 
-      {
-        //Serial.printf("Blah %d\r\n",TestResult[xpin*4+2]);
-        //FailArray[connector]++;
-      }
-    }
-  }
-
-//  for(int showfails=0;showfails<6;showfails++) {
-//    if(FailArray[showfails]) Serial.printf("%s is disconnected (%d)\r\n",FailNames[showfails*2],FailArray[showfails]);
-// }
-  return 0;
-}
-
-
 
 //  adjust addresses if needed
 #include "PCF8575.h"
@@ -401,7 +319,7 @@ String PairScan(void) {
   return pairscan;
 }
 
-int ComparisonResult[64*4];
+int ComparisonResult[PIN_COUNT*4];
 
 #define MAX_STR 256
 
@@ -417,7 +335,7 @@ String ComparisonScan() {
 
 
   // set all pins high
-  for(int index=0;index<64;index++) {
+  for(int index=0;index<PIN_COUNT;index++) {
     WritePCF(index,1);
 
     TestResult[index*4]=-1;
@@ -427,7 +345,7 @@ String ComparisonScan() {
 
   }
 
-  for(int outpin=0;outpin<64;outpin++) {
+  for(int outpin=0;outpin<PIN_COUNT;outpin++) {
 
     if(outpin%4>1) {// 10 hertz?
       digitalWrite(RED_LED,0);
@@ -444,7 +362,7 @@ String ComparisonScan() {
     for(cdex=0;cdex<4;cdex++) comparison[cdex]=-1;
     cdex=0;
     comparison[cdex++]=outpin;
-    for(int inpin=0;inpin<64;inpin++)
+    for(int inpin=0;inpin<PIN_COUNT;inpin++)
     {
       if(inpin!=outpin)
       {
@@ -484,15 +402,8 @@ String ComparisonScan() {
   else {
     digitalWrite(RED_LED,1);
     digitalWrite(GREEN_LED,0);
-    FailScan();
-    results=results+"\r\n";
-    for(int showfails=0;showfails<6;showfails++) {
-      if(FailArray[showfails]) {
-        sprintf(sbuffer,"<h1 style=\"line-height:0px;color:red;\">%s is disconnected (%d)</h1>\r\n",FailNames[showfails*2],FailArray[showfails]);
-        results=results+sbuffer;
-      }
   }
-  }
+  
   sprintf(sbuffer,"\r\n<b>Scan complete, %d errors<b>\r\n\r\n%d milliseconds elapsed\r\n%d connections tested \r\n%4d connections detected\r\n",errorcount,millis()-mill,tests,connections);
 
   results=results+sbuffer;
@@ -528,16 +439,12 @@ Serial.print("PCF8575_LIB_VERSION:\t");
   pinMode(WHITE_LED,OUTPUT);
   pinMode(SCAN_BUTTON,INPUT_PULLUP);
 
-  WritePCF(64+5,1);
-  WritePCF(64+6,0);
-  WritePCF(64+7,0);
-
  // int mill=millis();
  // Serial.println("Comparison Scan");
  // Serial.println(ComparisonScan());
  int tBytes = SPIFFS.totalBytes(); int uBytes = SPIFFS.usedBytes();
  Serial.printf("SPIFFS Total: %d Used: %d Free: %d\r\n",tBytes,uBytes,tBytes-uBytes);
- PairScan();
+ //PairScan();
 }
 
 int last=0;
