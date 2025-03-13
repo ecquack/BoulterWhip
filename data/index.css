@@ -1,0 +1,68 @@
+
+body {
+    background-color: black;
+    color:white;
+}
+
+
+.python {
+    color:red;
+}
+
+.tech {
+    font-size:x-large;
+}
+
+.serial {
+    font-size:x-large;
+}
+
+.scan_button {
+    font-size:x-large;
+}
+
+.save_button {
+    font-size:x-large;
+}
+
+.print_button {
+    font-size:x-large;
+}
+
+.passfail {
+    font-size: 144px;
+    line-height:24px;
+}
+
+@media print {
+    .scan_button
+    { display: none; }
+}
+
+@media print {
+    .save_button
+    { display: none; }
+}
+
+
+@media print {
+    .print_button
+    { display: none; }
+}
+
+
+@media screen {
+    .print_white
+    { display: none; }
+    
+}
+
+@media print {
+    body
+    {color:black;}
+}
+
+@media print {
+    .screen_black
+    { display: none; }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Wiring Harness Tester</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <link rel="icon" href="favicon.ico" />
+    </head>
+
+    <body>
+        <table>
+            <tr>
+                <th>
+                    <img class="screen_black" src="/logoblack.png">
+                    <img class="print_white" src="/logo.png">
+                    <br>
+                    Boulter Machine Works
+                </th>
+                <td>
+                    <H1 id="passfail" class="passfail"></H1>
+
+                </td>
+            </tr>
+        </table>
+        <div id="time_display">Time Pending</div>
+        <h1>Egg Packer Wiring Harness Test</h1>
+        <table>
+            <tr>
+                <td><label class="serial">Serial Number</label></td>
+                <td><input id="serialnumber" class="serial" type="text" value="2501000"></td>
+            </tr><tr>
+                <td><label class="tech">Technician</label></td>
+                <td><input id="technician" list="techs" class="tech" type="text"></td>
+                <datalist id="techs">
+                    <option value="LOVELY"></option>
+                    <option value="MONTGOMERY"></option>
+                    <option value="QUACKENBUSH"></option>
+                </datalist>
+            </tr>
+        </table>
+        <table><tr><td></td></tr></table>
+        <button class="scan_button" onclick="DoScan()">SCAN</button>
+        <button class="print_button" onclick="window.print()">PRINT</button>
+        <button class="save_button" onclick="DoSave()">SAVE</button>
+        <br>
+        <pre id="scan_result">
+            
+        </pre>
+    </body>
+    <script src="index.js"></script>		
+
+</html>
