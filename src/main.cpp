@@ -105,42 +105,58 @@ const char *PinDescriptions[]={ // pin description/name followed by connector de
 //
 
 
-#define PIN_COUNT 32
+#define PIN_COUNT 48
 
 int KnownGood[]={
-  0,-1,-1,-1,
-  1,-1,-1,-1,
-  2,31,-1,-1,
-  3,13,-1,-1,
-  4,12,-1,-1,
-  5,-1,-1,-1,
-  6,15,-1,-1,
-  7,11,-1,-1,
-   8,17,-1,-1,
-   9,-1,-1,-1,
-  10,20,-1,-1,
-  11,7,-1,-1,
-  12,4,-1,-1,
-  13,3,-1,-1,
-  14,21,-1,-1,
-  15,6,-1,-1,
-  16,28,-1,-1,
-  17, 8,-1,-1,
-  18,29,-1,-1,
-  19,30,-1,-1,
-  20,10,-1,-1,
-  21,14,-1,-1,
-  22,25,27,-1,
-  23,24,26,-1,
-  24,23,26,-1,
-  25,22,27,-1,
-  26,23,24,-1,
-  27,22,25,-1,
-  28,16,-1,-1,
-  29,18,-1,-1,
-  30,19,-1,-1,
-  31,2,-1,-1
-  };
+00,-1,-1,-1,
+01,31,-1,-1,
+02,13,-1,-1,
+03,12,-1,-1,
+04,-1,-1,-1,
+05,15,-1,-1,
+06,11,-1,-1,
+07,-1,-1,-1,
+ 8,17,-1,-1,
+ 9,-1,-1,-1,
+10,20,-1,-1,
+11,06,-1,-1,
+12,03,-1,-1,
+13,02,-1,-1,
+14,21,-1,-1,
+15,05,-1,-1,
+16,28,-1,-1,
+17, 8,-1,-1,
+18,29,-1,-1,
+19,30,-1,-1,
+20,10,-1,-1,
+21,14,-1,-1,
+22,-1,-1,-1,
+23,-1,-1,-1,
+24,26,46,-1,
+25,27,47,-1,
+26,24,46,-1,
+27,25,47,-1,
+28,16,-1,-1,
+29,18,-1,-1,
+30,19,-1,-1,
+31,01,-1,-1,
+32,-1,-1,-1,
+33,-1,-1,-1,
+34,-1,-1,-1,
+35,-1,-1,-1,
+36,-1,-1,-1,
+37,-1,-1,-1,
+38,-1,-1,-1,
+39,-1,-1,-1,
+40,-1,-1,-1,
+41,-1,-1,-1,
+42,-1,-1,-1,
+43,-1,-1,-1,
+44,-1,-1,-1,
+45,-1,-1,-1,
+46,24,26,-1,
+47,25,27,-1
+};
 
 int TestResult[256];
 
@@ -293,16 +309,16 @@ String PairScan(void) {
   String pairscan;
   char sbuffer[10];
   // set all pins high
-  for(int index=0;index<80;index++) {
+  for(int index=0;index<PIN_COUNT;index++) {
     WritePCF(index,1);
   }
 
-  for(int outpin=0;outpin<80;outpin++) {
+  for(int outpin=0;outpin<PIN_COUNT;outpin++) {
     WritePCF(outpin,0);
     Serial.printf("%02d",outpin);
     sprintf(sbuffer,"%02d",outpin);
     pairscan=pairscan+sbuffer;
-    for(int inpin=0;inpin<80;inpin++)
+    for(int inpin=0;inpin<PIN_COUNT;inpin++)
     {
       if(inpin!=outpin)
         if(ReadPCF(inpin)==0)
@@ -444,7 +460,7 @@ Serial.print("PCF8575_LIB_VERSION:\t");
  // Serial.println(ComparisonScan());
  int tBytes = SPIFFS.totalBytes(); int uBytes = SPIFFS.usedBytes();
  Serial.printf("SPIFFS Total: %d Used: %d Free: %d\r\n",tBytes,uBytes,tBytes-uBytes);
- //PairScan();
+ PairScan();
 }
 
 int last=0;
