@@ -25,87 +25,68 @@ char password[]="t6z7gmkhd5";
 
 #define RED_LED     32
 #define WHITE_LED   14
-#define GREEN_LED   32
+#define GREEN_LED   15
 
 #define SCAN_BUTTON 4
 
 
 const char *PinDescriptions[]={ // pin description/name followed by connector description/name
-  "1 pendant stop","circular","black/red",// 0
-  "2 pendant start","circular","black/white",//1
-  "3 pendant jog","circular","black",//2
-  "4 pendant red","circular","white/red",//3
-  "5 pendant green","circular","white",//4
-  "6 pendant alarm","circular","white/black",//5
-  "7 chassis ground","circular","green",//6
-  "8 interlock stop +24","circular","orange/black",//7
-  "9 interlock stop gnd","circular","blue/black",//8
-  "n.c.","circular","",//9
-  "11 clutch switched gnd","circular","black",//10
-  "12 pendant +24v","circular","orange",//11
-  "13 pendant gnd","circular","blue",//12
-  "14 clutch power","circular","brown",//13
-  "n.c.","circular","",//14
-  "16 missing flat/egg +24","circular","orange/red",//15
-  "17 missing flat/egg gnd","circular","blue/red",//16
-  "18 cycle stop","circular","green",//17
-  "19 missing flat","circular","red",//18
-  "20 missing egg","circular","red/black",//19
-  "21 flow control","circular","red/white",//20
-  "n.c.","circular","",//21
-  "n.c.","circular","",//22
-  "n.c.","circular","",//23
-  "34 interlock","circular","green/black",//24
-  "35 interlock n.c.","circular","green/white",//25
-  "n.c.","","",//26
-  "n.c.","","",//27
-  "n.c.","","",//28
-  "n.c.","","",//29
-  "n.c.","","",//30
-  "n.c.","","",//31
-  // outputs 
-  "pendant red",  "purple","brown (alt. white)",//32
-  "pendant gnd",  "purple","violet (alt. blue)",//33
-  "pendant start","purple","blue (alt. green)",//34
-  "pendant jog",  "purple","black (alt. yellow)",//35
-  "pendant green","purple","pink",//36
-  "pendant alarm","purple","violet (alt. blue)",//37
-  "pendant +24V", "purple","white (alt. brown)",//38
-  "pendant stop", "purple","orange (alt. red)",//39
-  "n.c.","","",//40
-  "n.c.","","",//41
-  "n.c.","","",//42
-  "n.c.","","",//43
-  "clutch power","red","red",//44
-  "n.c.","","",//45
-  "n.c.","","",//46
-  "clutch switched GND","red","black",//47
-  "interlock stop +24V","orange","",//48
-  "n.c","","",//49
-  "missing flat +24V","orange","",//50
-  "cycle stop","orange","",//51
-  "interlock cycle stop GND","blue","",//52
-  "flow control","blue","",//53
-  "missing egg GND","blue","",//54
-  "missing egg","blue","",//55
-  "stacker ","black","",//56
-  "missing egg +24V","black","",//57
-  "stacker int","black","",//58
-  "interlock stop +24V","black","",//59
-  "missing flat","yellow","",//60
-  "missing flat egg GND","yellow","",//61
-  "n.c.","","",//62
-  "interlock cycle stop GND","yellow","",//63
+  // bank 0
+  "0 n.c.","","",//1
+  "1 n.c.","","",//2
+  "2 n.c.","","",//3
+  "3 n.c.","","",//4
+  "4 n.c.","","",//5
+  "5 n.c.","","",//6
+  "6 n.c.","","",//7
+  "7 n.c.","","",//8
+  "8 n.c.","","",//9
+  "9 n.c.","","",//10
+  "10 n.c.","","",//11
+  "11 n.c.","","",//12
+  "12 n.c.","","",//13
+  "13 n.c.","","",//14
+  "14 n.c.","","",//15
+  "15 n.c.","","",//16
+  // bank 1
+  "16 n.c.","","",//17
+  "17 n.c.","","",//18
+  "18 n.c.","","",//19
+  "19 n.c.","","",//20
+  "20 n.c.","","",//21
+  "21 n.c.","","",//22
+  "22 n.c.","","",//23
+  "23 n.c.","","",//24
+  "24 n.c.","","",//25
+  "25 n.c.","","",//26
+  "26 n.c.","","",//27
+  "27 n.c.","","",//28
+  "28 n.c.","","",//29
+  "29 n.c.","","",//30
+  "30 n.c.","","",//31
+  "31 n.c.","","",//32
+  // bank 3
+  "32 n.c.","","",//33
+  "33 n.c.","","",//34
+  "34 n.c.","","",//35
+  "35 n.c.","","",//36
+  "36 n.c.","","",//37
+  "37 n.c.","","",//38
+  "38 n.c.","","",//39
+  "39 n.c.","","",//40
+  "40 n.c.","","",//41
+  "41 n.c.","","",//42
+  "42 n.c.","","",//43
+  "43 n.c.","","",//44
+  "44 n.c.","","",//45
+  "45 n.c.","","",//46
+  "46 n.c.","","",//47
+  "47 n.c.","","",//48
   "Array Overflow","error"
 };
 
-//
-// wiring harness map for Boutler Egg Packer 
-// -1 means N.C.
-//
-
-
-#define PIN_COUNT 48
+#define PIN_COUNT 48  
+#define GOOD_WIDTH 4
 
 int KnownGood[]={
 00,-1,-1,-1,
@@ -158,7 +139,7 @@ int KnownGood[]={
 47,25,27,-1
 };
 
-int TestResult[256];
+int TestResult[GOOD_WIDTH*PIN_COUNT];
 
 //  adjust addresses if needed
 #include "PCF8575.h"
@@ -335,14 +316,14 @@ String PairScan(void) {
   return pairscan;
 }
 
-int ComparisonResult[PIN_COUNT*4];
+int ComparisonResult[PIN_COUNT*GOOD_WIDTH];
 
 #define MAX_STR 256
 
 String ComparisonScan() {
   int mill=millis();
   char sbuffer[MAX_STR];
-  int comparison[4],cdex,errorcount=0;
+  int comparison[GOOD_WIDTH],cdex,errorcount=0;
   int connections=0,tests=0;
   String results;
 
@@ -354,16 +335,16 @@ String ComparisonScan() {
   for(int index=0;index<PIN_COUNT;index++) {
     WritePCF(index,1);
 
-    TestResult[index*4]=-1;
-    TestResult[index*4+1]=-1;
-    TestResult[index*4+2]=-1;
-    TestResult[index*4+3]=-1;
+    TestResult[index*GOOD_WIDTH]=-1;
+    TestResult[index*GOOD_WIDTH+1]=-1;
+    TestResult[index*GOOD_WIDTH+2]=-1;
+    TestResult[index*GOOD_WIDTH+3]=-1;
 
   }
 
   for(int outpin=0;outpin<PIN_COUNT;outpin++) {
 
-    if(outpin%4>1) {// 10 hertz?
+    if(outpin%4>1) {// 10 hertz? this is empirical and is determined by the GPIO speed
       digitalWrite(RED_LED,0);
       digitalWrite(GREEN_LED,1);
     }
@@ -375,7 +356,7 @@ String ComparisonScan() {
     }
 
     WritePCF(outpin,0);
-    for(cdex=0;cdex<4;cdex++) comparison[cdex]=-1;
+    for(cdex=0;cdex<GOOD_WIDTH;cdex++) comparison[cdex]=-1;
     cdex=0;
     comparison[cdex++]=outpin;
     for(int inpin=0;inpin<PIN_COUNT;inpin++)
@@ -389,17 +370,19 @@ String ComparisonScan() {
         }
         tests++;
       }
-      else TestResult[outpin*4]=outpin;
+      else TestResult[outpin*GOOD_WIDTH]=outpin;
     }
     int bad=0;
     for(cdex=0;cdex<4;cdex++) 
-      if(KnownGood[outpin*4+cdex]!=comparison[cdex]) bad++;
+      if(KnownGood[outpin*GOOD_WIDTH+cdex]!=comparison[cdex]) bad++;
       
     if(bad) { 
    
       sprintf(sbuffer,
       "%02d->%02d,%02d %-32s %-10s %s\r\n",
-      KnownGood[outpin*4+0],KnownGood[outpin*4+1],KnownGood[outpin*4+2],
+      KnownGood[outpin*GOOD_WIDTH+0],
+      KnownGood[outpin*GOOD_WIDTH+1],
+      KnownGood[outpin*GOOD_WIDTH+2],
  //       comparison[0],comparison[1],comparison[2],comparison[3],
         PinDescriptions[comparison[0]*3],PinDescriptions[comparison[0]*3+1],PinDescriptions[comparison[0]*3+2]);
 
