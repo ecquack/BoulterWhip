@@ -139,6 +139,7 @@ int KnownGood[]={
 47,25,27,-1
 };
 
+
 int TestResult[GOOD_WIDTH*PIN_COUNT];
 
 //  adjust addresses if needed
