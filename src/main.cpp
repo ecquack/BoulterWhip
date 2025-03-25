@@ -32,41 +32,41 @@ char password[]="t6z7gmkhd5";
 
 const char *PinDescriptions[]={ // pin description/name followed by connector description/name
   // bank 0
-  "PLC GND","20","10",//1 10
-  "plc X104","20", "6",//2 6
-  "PLC X102","20", "2",//3 2
-  "PLC Y103","20","14",//4 14
-  "PLC +V","20", "0",//5 0
-  "PLC X103","20", "3",//6 3
-  "PLC X101","20", "1",//7 1
-  "PLC +V","20","16",//8 16
+  "PLC GND",  "PLC 20","10",//1 10
+  "plc X104", "PLC 20", "6",//2 6
+  "PLC X102", "PLC 20", "2",//3 2
+  "PLC Y103", "PLC 20","14",//4 14
+  "PLC +V1",   "PLC 20", "0",//5 0
+  "PLC X103", "PLC 20", "3",//6 3
+  "PLC X101", "PLC 20", "1",//7 1
+  "PLC +V2",   "PLC 20","16",//8 16
 
-  "pendant jog","35",  "3", // 9 3
-  "e-stop","35", "35", //10 35
-  "pendant red lamp","35", "4",//11 4
-  "cycle stop","35","18",//12 18
-  "pendant alarm","35", "6",//13 6
-  "missing flat","35","19",//14
-  "pendant start","35", "2",//15 2
-  "missing egg (black)","35","20",//16
+  "pendant jog",        "Deutch 35",  "3", // 9 3
+  "e-stop",             "Deutch 35",        "35", //10 35
+  "pendant red lamp",   "Deutch 35", "4",//11 4
+  "cycle stop",         "Deutch 35","18",//12 18
+  "pendant alarm",      "Deutch 35", "6",//13 6
+  "missing flat",       "Deutch 35","19",//14
+  "pendant start",      "Deutch 35", "2",//15 2
+  "missing egg (black)","Deutch 35","20",//16
   // bank 1
-  "Y102","20","12",//17 12
-  "X107 n.c.","20", "8",//18 8
-  "X108 n.c.","20", "9",//19 9
-  "X105 n.c.","20", "6",//20 6
-  "Y101 n.c.","20","11",//21 11
-  "X106 n.c.","20", "7",//22 7
+  "Y102","PLC 20","12",//17 12
+  "X107","PLC 20", "8",//18 8
+  "X108","PLC 20", "9",//19 9
+  "X105","PLC 20", "6",//20 6
+  "Y101","PLC 20","11",//21 11
+  "X106","PLC 20", "7",//22 7
   "22 n.c.","20","",//23
   "23 n.c.","20","",//24
 
-  "egg/flat GND","35","17",//25 17
-  "egg/flat +24V","35","16",//26 16
-  "interlock GND","35","9",//27 9
-  "interlock +24V","35","8",//28 8
-  "green lamp","35","5",//29 5
-  "stacker int.","35","34",//30 34
-  "pendant stop","35","1",//31 1
-  "missing egg (white)","35","21",//32 21
+  "egg/flat GND",       "Deutch 35","17",//25 17
+  "egg/flat +24V",      "Deutch 35","16",//26 16
+  "interlock GND",      "Deutch 35","9",//27 9
+  "interlock +24V",     "Deutch 35","8",//28 8
+  "green lamp",         "Deutch 35","5",//29 5
+  "stacker int.",       "Deutch 35","34",//30 34
+  "pendant stop",       "Deutch 35", "1",//31 1
+  "missing egg (white)","Deutch 35","21",//32 21
   // bank 3
   "32 n.c.","","",//33
   "33 n.c.","","",//34
