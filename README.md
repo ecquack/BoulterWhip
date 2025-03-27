@@ -1,12 +1,10 @@
-# Boulter Harness
+# Boulter Backplane
 
-This is the egg packer wiring harness tester controller software for Boulter Machine Works. 
-It is of no use to you unless you are Colby, but there's nothing particularly proprietary in here
-so feel free to have a look.
+This is the egg packer backplane wiring harness tester controller software for Boulter Machine Works. 
 
-It can be built in two versions. The harness tester version is for the external wiring harness. The whip tester version is for the internal harness within the PLC/VFD box. The whip tester version is not as comprehensive, as it cannot be completely quick disconnected from a box for testing. The Whip tester connects to the circular 35 pin connector and to the connector that goes to the PLC I/O expansion module. It also has lines to clip into the positive and negative 24 volt rails. 
+It is of no use to you unless you are Colby, but there's nothing particularly proprietary in here so feel free to have a look.
 
-There is a second whip between the HMI board and the PLC's internal I/O. Testing this will require a third testing rig and compilation mode. 
+This whip tester version is for the internal harness within the PLC/VFD box. The whip tester version is not as comprehensive, as it cannot be completely quick disconnected from a box for testing. The Whip tester connects to the circular 35 pin connector and to the 20 pin terminal strip that goes to the PLC I/O expansion module. 
 
 It runs on an Adafruit Huzzah32 EPS32 Feather, your basic original ESP32 board with a USB to serial converter on the board. 4MB flash, no PSRAM, dual core CPU. Massive overkill for this job, but we wanted the WiFi interface for the web server.
 
@@ -31,69 +29,100 @@ When reading the state, they are normally pulled high. Shorting the pin to groun
 
 # HTTP endpoints:
 
-/               serves file index.html from SPIFFS partition
+    / (backslash)
 
+serves file index.html from SPIFFS partition
 
-files served from SPIFFS partition by name:
+    /index.html
 
-/index.html
-/index.js
-/index.css
-/logo.png
-/logoblack.png
-/favicon.ico    (fixed, shows Boulter EGG logo)
+Main HTML file
 
-/setpin?pin= < pin > & val = < val >
+    /index.js
 
-    Example:
+Javascript file
 
-    Pins are numbered 0-127 across eight sequential GPIO boards.
+    /index.css
 
-    Thus:
+Style sheet
+
+    /logo.png
+
+Logo for black on white (not presently used)
+
+    /logoblack.png
+
+Logo for white on black
+
+    /favicon.ico
+    
+shows Boulter EGG logo in tab corner
+
+    /setpin?pin= < pin > & val = < val >
+
+Example:
+
+Pins are numbered 0-127 across eight sequential GPIO boards.
+
+Thus:
     
         htester.local/setpin?pin=20&val=1
 
-    will set pin number 4 on GPIO chip number two (I2C 0x21).
-    And:
+will set pin number 4 on GPIO chip number two (I<sup>2</sup>C 0x21).
+
+And:
 
         htester.local/setpin?pin=0&val=0
 
-    will clear pin zero on chip number one (I2C 0x20)
+will clear pin zero on chip number one (I<sup>2</sup>C 0x20)
 
-    Bug fix needed: always returns OK, even if the GPIO fails. 
+~~Bug fix~~ Feature needed: always returns OK, even if the GPIO fails. There is presently no way to see which GPIO chips are online.
 
-/getpin?pin= < pin >
 
-    Example:
 
-    htester.local/getpin?pin=2
+    /getpin?pin= < pin >
 
-    will return state of pin number two one GPIO chip number one (I2C 0x20).
+Example:
 
-    Returns 0 or 1
+    http://htester.local/getpin?pin=2
 
-/getmap
+will return state of pin number two one GPIO chip number one (I2C 0x20). Returns 0 or 1
+
+    /getmap
 
 This returns a JSON file with the default KnownGood map of wires and their descriptions. 
 
-/setmap [not yet implemented]
+    /setmap [not yet implemented]
 
 This accepts a JSON file which overrides the built in wiring map and pin/connector descriptions 
-(not yet implemented)
 
-/scanmap
+    /scanmap
 
 This runs a scan and returns a JSON file of success or any errors found
 
-/pairscan
+    /pairscan
 
-This scans every wire on the first 80 GPIOs and finds matching pairs (or triples, etc.). This is how you build the KnownGood[] map used for later comparisons. Each line lists a pin following by a comma separated list of pins that it is connected to.
+*emph *with emph* in it*
+**strong **with strong** in it**
 
-/scanreport
+This scans every wire on the first 80 GPIOs and finds matching pairs (or triples, etc.). This is how you build the **KnownGood[]** array map used for later comparisons. Each line lists a pin following by a comma separated list of pins that it is connected to. It requires some editing to massage into a **KnownGood[]** array. Mainly, the empty places must be replaced with -1 (negative one) to denote no connection. 
+
+Note that **KnownGood[]** is presently four columns wide. If the wiring map changes and has more than four wires connected together, it will be necessary to widen the array. This will require changing
+
+    #define GOOD_WIDTH <columns>
+
+**KnownGood[]** is presently a (default) 32 bit integer array, which is a minor waste of memory, as we could use signed 8 bit values (char, int8_t) instead. 
+
+Also, if you need more than three GPIO extenders you'll need to change
+
+    #define PIN_COUNT <multiple of 16 GPIOs>
+
+From 48 (or 64) to some even multiple of 16 up to 128. We do not exactly assume that the GPIO extenders will have contiguous addresses on the I<sup>2</sup>C bus, but scanning will be more efficient if we do.  
+
+    /scanreport
 
 This returns a JSON map of the current wiring harness in place, for comparison with the data returned by /getmap. 
 
-/refresh
+    /refresh
 
 This returns the result of the most recent scan, which could have been triggered in three different ways:
 1. Clicking on the "scan" button on the index.html page
