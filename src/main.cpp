@@ -14,7 +14,7 @@
 //
 
 
-char HOSTNAME[]="wtester"; // we are HOSTNAME.local via mDNS
+char HOSTNAME[]="wtester"; // we are http://HOSTNAME.local via mDNS
 char ssid[]="TELUS0609";
 char password[]="t6z7gmkhd5";
 
